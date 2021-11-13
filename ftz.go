@@ -71,3 +71,13 @@ func TraditionalToSimplified(text string) string {
 	}
 	return ret
 }
+
+// 判断是否包含繁体字
+func ContainsTraditional(text string) bool {
+	for _, c := range text {
+		if _, ok := t2sMap[c]; ok {
+			return true
+		}
+	}
+	return false
+}
