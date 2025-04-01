@@ -15,6 +15,13 @@ func TestFTZ(t *testing.T) {
 	if TraditionalToSimplified("吃飯") != "吃饭" {
 		t.Fatal()
 	}
+	if SimplifiedToTraditional("干燥") != "乾燥" {
+		t.Fatal()
+	}
+
+	if TraditionalToSimplified("乾燥") != "干燥" {
+		t.Fatal()
+	}
 	if SimplifiedToTraditional("吃饭") != "吃飯" {
 		t.Fatal()
 	}
