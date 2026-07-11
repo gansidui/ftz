@@ -178,6 +178,54 @@ func TestTraditionalToSimplifiedTTSGuards(t *testing.T) {
 	}
 }
 
+func TestTraditionalToSimplifiedZhuContexts(t *testing.T) {
+	tests := map[string]string{
+		"看著、唱著": "看着、唱着",
+		"他說著話，笑著走著，最後睡著了。":   "他说着话，笑着走着，最后睡着了。",
+		"著名著作、原著名著、顯著卓著":     "著名著作、原著名著、显著卓著",
+		"著重、著手、著眼、著陸":        "着重、着手、着眼、着陆",
+		"著名作家著有多部專著。":        "著名作家著有多部专著。",
+		"這本書是魯迅所著。":          "这本书是鲁迅所著。",
+		"二人合著此書，也與他人共著另一本書。": "二人合著此书，也与他人共著另一本书。",
+		"此書由二人撰著，足以見微知著。":    "此书由二人撰著，足以见微知著。",
+		"這位作家著称於世。":          "这位作家著称于世。",
+		"他看著作業。":             "他看着作业。",
+		"他拿著作者的書。":           "他拿着作者的书。",
+		"看著有點奇怪。":            "看着有点奇怪。",
+		"他盯著名單。":             "他盯着名单。",
+		"她拿著錄音機。":            "她拿着录音机。",
+		"他拿著書，看著書名。":         "他拿着书，看着书名。",
+		"事情終於有所著落。":          "事情终于有所着落。",
+		"這件事仍無所著落。":          "这件事仍无所着落。",
+		"这件事仍无所著落。":          "这件事仍无所着落。",
+		"他配合著音樂唱歌。":          "他配合着音乐唱歌。",
+		"技術結合著藝術。":           "技术结合着艺术。",
+		"液體混合著砂粒。":           "液体混合着砂粒。",
+		"文化融合著多種傳統。":         "文化融合着多种传统。",
+		"我不知著落何處。":           "我不知着落何处。",
+		"他不知著手何處。":           "他不知着手何处。",
+	}
+
+	for traditional, simplified := range tests {
+		if got := TraditionalToSimplified(traditional); got != simplified {
+			t.Fatalf("TraditionalToSimplified(%q) = %q, want %q", traditional, got, simplified)
+		}
+	}
+
+	if ContainsTraditional("著作") {
+		t.Fatal("ContainsTraditional(\"著作\") = true, want false")
+	}
+}
+
+func TestTraditionalToSimplifiedTTSSample(t *testing.T) {
+	traditional := "為甚麼這隻貓正在吃麵包？ 乾隆年間天氣乾燥，衣服已經晾乾。 他說著話，笑著走著，最後睡著了。 據瞭解，這是重要特徵，也象徵著勝利。 她戴著項鍊和手錶，站在櫃檯前。 妳牽著牠，祂會保佑你。"
+	want := "为什么这只猫正在吃面包？ 乾隆年间天气干燥，衣服已经晾干。 他说着话，笑着走着，最后睡着了。 据了解，这是重要特征，也象征着胜利。 她戴着项链和手表，站在柜台前。 你牵着它，他会保佑你。"
+
+	if got := TraditionalToSimplified(traditional); got != want {
+		t.Fatalf("TraditionalToSimplified(%q) = %q, want %q", traditional, got, want)
+	}
+}
+
 func TestSimplifiedToTraditionalGanWords(t *testing.T) {
 	tests := map[string]string{
 		"天干地支": "天干地支",
@@ -209,6 +257,11 @@ func TestTraditionalToSimplifiedDoesNotBreakSimplifiedText(t *testing.T) {
 		"劈开木头",
 		"糊涂一点",
 		"脊梁挺直",
+		"穿着名牌",
+		"他说着话",
+		"著名著作",
+		"显著成效",
+		"着重处理",
 		"镟床加工",
 		"钜细靡遗",
 		"矽谷",
